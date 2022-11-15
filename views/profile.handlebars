@@ -1,0 +1,40 @@
+<div class="typical-page-wrapper">
+
+    <ul class="nav-bar">
+        <li class="active"><a href="/petition/signed">Signature</a></li>
+        <li><a href="/signers">Signers List</a></li>
+        <li><a href="/edit">Edit profile</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
+
+    <div class="petition-home"></div>
+
+    <div class="main-title">
+        <h3>Hi, {{firstname}} {{lastname}}! </h3>
+        <h3>Now please tell us just a little bit more about yourself.</h3>
+    </div>
+
+    <form type="submit" method="post" id="edit-profile-form">
+        <input
+            type="number"
+            placeholder="Enter your age [optional]"
+            name="age"
+        />
+        <input
+            type="text"
+            placeholder="Enter your city [optional]"
+            name="city"
+        />
+        <input
+            type="text"
+            placeholder="Enter your website [optional]"
+            name="userUrl"
+        />
+        <input type="submit" value="Continue" />
+
+    </form>
+    <div class="login-wrapper">
+        <p class="form-error">{{error}}</p>
+    </div>
+
+</div>

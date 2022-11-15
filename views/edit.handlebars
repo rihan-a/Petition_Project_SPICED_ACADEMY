@@ -1,0 +1,61 @@
+<div class="typical-page-wrapper">
+    <ul class="nav-bar">
+        <li><a href="/petition/signed">Signature</a></li>
+        <li><a href="/signers">Signers List</a></li>
+        <li class="active"><a href="/edit">Edit profile</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
+
+    <div class="petition-home"></div>
+
+    <div class="main-title">
+        <h3>You can edit your profile here.</h3>
+    </div>
+
+    <form type="submit" method="post" id="edit-profile-form">
+        <input
+            type="text"
+            placeholder="First name"
+            name="firstname"
+            value="{{firstname}}"
+        />
+        <input
+            type="text"
+            placeholder="Last name"
+            name="lastname"
+            value="{{lastname}}"
+        />
+        <input
+            type="email"
+            placeholder="Email"
+            name="email"
+            value="{{email}}"
+        />
+        <input type="password" placeholder="Password" name="password" />
+
+        <input
+            type="number"
+            placeholder="Enter your age"
+            name="age"
+            value="{{age}}"
+        />
+        <input
+            type="text"
+            placeholder="Enter your city"
+            name="city"
+            value="{{city}}"
+        />
+        <input
+            type="text"
+            placeholder="Enter your website"
+            name="userUrl"
+            value="{{userUrl}}"
+        />
+        <input type="submit" value="Update" />
+
+    </form>
+    <div class="login-wrapper">
+        <p class="form-error">{{error}}</p>
+    </div>
+
+</div>

@@ -1,0 +1,34 @@
+<div class="typical-page-wrapper">
+    <ul class="nav-bar">
+        <li class="active"><a href="/petition/signed">Signature</a></li>
+        <li><a href="/signers">Signers List</a></li>
+        <li><a href="/edit">Edit profile</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
+
+    <div class="petition-home"></div>
+
+    <div class="main-title">
+        <h3 class="thankyou-note">Thank you
+            {{signerName}}
+            for supporting our petition to bring back the 9 euro ticket.</h3>
+    </div>
+
+    <div class="thankyou-container">
+
+        <div class="signature">
+            <img src="{{canvasUrl}}" alt="signature" />
+        </div>
+
+        <h2 class="signers-list-link">See all
+            <a href="/signers">{{signers}}</a>
+            supporters</h2>
+        <h2 class="signers-list-link"><a href="/edit">Edit your profile</a></h2>
+
+        <form type="submit" method="post" id="delete-form">
+            <input type="submit" value="Delete your signature" />
+        </form>
+
+    </div>
+
+</div>

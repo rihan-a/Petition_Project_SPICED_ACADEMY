@@ -1,0 +1,28 @@
+<div class="typical-page-wrapper">
+
+    <ul class="nav-bar">
+        <li><a href="/petition/signed">Signature</a></li>
+        <li><a href="/signers">Signers List</a></li>
+        <li><a href="/edit">Edit profile</a></li>
+        <li><a href="/logout">Log out</a></li>
+    </ul>
+
+    <div class="petition-home"></div>
+
+    <div class="main-title">
+        <h3 class="thankyou-note">Please sign here to support our petition.</h3>
+        <h3>{{firstname}} {{lastname}}</h3>
+    </div>
+
+    <form type="submit" method="post" id="edit-profile-form">
+
+        <input type="hidden" name="signature" />
+        <canvas id="can" width="400px" height="400px"></canvas>
+        <input type="submit" value="Submit" />
+    </form>
+
+    <div class="login-wrapper">
+        <p class="form-error">{{error}}</p>
+    </div>
+
+</div>
