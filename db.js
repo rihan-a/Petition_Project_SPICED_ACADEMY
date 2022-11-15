@@ -1,15 +1,11 @@
 const spicedPg = require("spiced-pg");
 require("dotenv").config();
 
-const { DB_USERNAME, DB_PASSWORD } = process.env;
-
-const user = DB_USERNAME;
-const password = DB_PASSWORD;
-const database = "petition";
+const { DATABASE_URL } = process.env;
 
 // this establishes the connection to the db
 // it get's a connection string as an argument
-const db = spicedPg(`postgres:${user}:${password}@localhost:5432/${database}`);
+const db = spicedPg(DATABASE_URL);
 
 // function to create user profile into the USERS table
 function createProfile({ firstName, lastName, email, password, createdAt }) {
