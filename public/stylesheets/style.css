@@ -199,8 +199,6 @@ form input:last-child {
     color: white;
 }
 
-#delete-form {
-}
 #delete-form input {
     color: white;
     font-weight: bold;
@@ -269,4 +267,20 @@ form canvas {
     border: solid 2px black;
     background-color: rgb(255, 255, 255);
     padding-left: unset;
+}
+
+/* -----------------ERROR 404 --------------------- */
+
+.error-page {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.error-msg-container {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: 300;
 }
