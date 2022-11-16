@@ -25,8 +25,22 @@
             supporters</h2>
         <h2 class="signers-list-link"><a href="/edit">Edit your profile</a></h2>
 
-        <form type="submit" method="post" id="delete-form">
+        <form
+            type="submit"
+            method="post"
+            id="delete-form"
+            action="/petition/signed/delete"
+        >
             <input type="submit" value="Delete your signature" />
+        </form>
+
+        <form
+            type="submit"
+            method="post"
+            id="delete-form"
+            action="/petition/signed/delete_profile"
+        >
+            <input type="submit" value="Delete your Profile" />
         </form>
 
     </div>
