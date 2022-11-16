@@ -129,22 +129,6 @@ RETURNING *`,
 }
 //-------------------------------------------------------------------->
 
-// function checkIfSignedById(id) {
-//     return db
-//         .query("SELECT * FROM signatures WHERE user_id = $1", [id])
-//         .then((result) => {
-//             //console.log(result);
-//             if (result.rows[0]) {
-//                 if (result.rows[0].signature) {
-//                     return true;
-//                 } else {
-//                     return false;
-//                 }
-//             }
-//             return false;
-//         });
-// }
-
 // Delete signature & Profile ---------------------------------------->
 function deleteSignature(id) {
     return db
@@ -161,12 +145,26 @@ function deleteSignature(id) {
 }
 
 function deleteProfile(id) {
-    return db.query(
-        `DELETE FROM users
-            WHERE id=$1
+    db.query(
+        `DELETE FROM users_profiles
+            WHERE users_profiles.user_id = $1
         `,
         [id]
     );
+    db.query(
+        `DELETE FROM signatures
+            WHERE signatures.user_id = $1
+            
+        `,
+        [id]
+    );
+    db.query(
+        `DELETE FROM users
+            WHERE users.id = $1
+        `,
+        [id]
+    );
+    return;
 }
 
 module.exports = {
