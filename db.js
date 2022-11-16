@@ -5,7 +5,8 @@ const { DATABASE_URL } = process.env;
 
 // this establishes the connection to the db
 // it get's a connection string as an argument
-const db = spicedPg(DATABASE_URL);
+
+const db = spicedPg(`DATABASE_URL`);
 
 // function to create user profile into the USERS table
 function createProfile({ firstName, lastName, email, password, createdAt }) {
