@@ -31,6 +31,7 @@ const {
     updateUsers,
     updateUsersProfiles,
     deleteSignature,
+    deleteProfile,
 } = require("./db");
 
 // Middlewares -------------------------------------------------->
@@ -446,7 +447,7 @@ app.post("/edit", (req, res) => {
 //Delete Signature Route  ----------------------------------------------------------------->
 //----------------------------------------------------------------------------------------->
 //POST
-app.post("/petition/signed", function (req, res) {
+app.post("/petition/signed/delete", function (req, res) {
     let id = req.session.userID;
     deleteSignature(id)
         .then((results) => {
@@ -454,7 +455,7 @@ app.post("/petition/signed", function (req, res) {
             // Destroy signed session
             req.session.signed = false;
             req.session.signersCount = results.rowCount;
-            return res.redirect("/delete");
+            return res.redirect("/petition/signed/delete");
         })
         .catch((error) => {
             console.log(error);
@@ -462,8 +463,27 @@ app.post("/petition/signed", function (req, res) {
 });
 
 //GET
-app.get("/delete", function (req, res) {
+app.get("/petition/signed/delete", function (req, res) {
     return res.render("delete");
+});
+
+//Delete Profile Route  ----------------------------------------------------------------->
+//----------------------------------------------------------------------------------------->
+//POST
+app.post("/petition/signed/delete_profile", function (req, res) {
+    let id = req.session.userID;
+    deleteProfile(id);
+
+    // Destroy signed session
+    req.session.logedIn = null;
+    req.session.signersCount = null;
+    req.session.signed = null;
+    return res.redirect("/petition/signed/delete_profile");
+});
+
+//GET
+app.get("/petition/signed/delete_profile", function (req, res) {
+    return res.redirect("/register");
 });
 
 //LOGOUT Route  ----------------------------------------------------------------->
