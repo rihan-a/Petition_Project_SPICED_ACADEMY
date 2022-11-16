@@ -104,6 +104,7 @@ body {
     -webkit-text-stroke: 0.7px;
     text-transform: uppercase;
     font-family: "Six Caps", sans-serif;
+    font-weight: unset;
 }
 
 .petition-title h2 {
