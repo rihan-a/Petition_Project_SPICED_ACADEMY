@@ -80,9 +80,9 @@ app.post("/register", (req, res) => {
         lastname.trim() == "" ||
         email.trim() == "" ||
         password.trim() == "" ||
-        isNaN(firstname) ||
-        isNaN(lastname) ||
-        isNaN(email)
+        isNaN(firstname)==false ||
+        isNaN(lastname)==false ||
+        isNaN(email)==false
     ) {
         res.render("register", {
             error: "Something went wrong, please fill your data properly!",
@@ -148,7 +148,7 @@ app.post("/login", (req, res) => {
     //read data sent by the user in the form!
     const { email, password } = req.body;
 
-    if (email.trim() == "" || password.trim() == "" || isNaN(email)) {
+    if (email.trim() !== "" || password.trim() !== "" || isNaN(email)) {
         getProfileByEmail(email).then((user) => {
             //console.log(user);
             if (user) {
@@ -235,9 +235,9 @@ app.post("/profile", (req, res) => {
         age.trim() == "" ||
         city.trim() == "" ||
         userUrl.trim() == "" ||
-        isNaN(city) ||
-        isNaN(age) == false ||
-        isNaN(userUrl)
+        isNaN(city)==false ||
+        isNaN(age)  ||
+        isNaN(userUrl)==false
     ) {
         return res.render("profile", {
             firstname,
@@ -429,15 +429,15 @@ app.post("/edit", (req, res) => {
         firstname.trim() == "" ||
         lastname.trim() == "" ||
         email.trim() == "" ||
-        isNaN(firstname) ||
-        isNaN(lastname) ||
-        isNaN(email) ||
+        isNaN(firstname)==false ||
+        isNaN(lastname)==false ||
+        isNaN(email)==false ||
         age.trim() == "" ||
         city.trim() == "" ||
         userUrl.trim() == "" ||
-        isNaN(city) ||
-        isNaN(age) == false ||
-        isNaN(userUrl)
+        isNaN(city)==false ||
+        isNaN(age)  ||
+        isNaN(userUrl)==false
     ) {
         const { firstname, lastname, email } = req.session.userName;
         const { age, city, userUrl } = req.session.userProfile;
@@ -449,6 +449,7 @@ app.post("/edit", (req, res) => {
             age,
             city,
             userUrl,
+            error: "something went wrong!"
         });
     }
 
