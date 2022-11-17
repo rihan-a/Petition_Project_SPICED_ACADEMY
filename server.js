@@ -79,7 +79,10 @@ app.post("/register", (req, res) => {
         firstname.trim() == "" ||
         lastname.trim() == "" ||
         email.trim() == "" ||
-        password.trim() == ""
+        password.trim() == "" ||
+        isNaN(firstname) ||
+        isNaN(lastname) ||
+        isNaN(email)
     ) {
         res.render("register", {
             error: "Something went wrong, please fill your data properly!",
@@ -145,7 +148,7 @@ app.post("/login", (req, res) => {
     //read data sent by the user in the form!
     const { email, password } = req.body;
 
-    if (email !== "" || password !== "" || email !== " " || password !== " ") {
+    if (email.trim() == "" || password.trim() == "" || isNaN(email)) {
         getProfileByEmail(email).then((user) => {
             //console.log(user);
             if (user) {
@@ -224,9 +227,24 @@ app.get("/profile", (req, res) => {
 //POST
 app.post("/profile", (req, res) => {
     //read data sent by the user in the form!
+    const { firstname, lastname } = req.session.userName;
     let { age, city, userUrl } = req.body;
 
-    // check
+    // check user input before saving to database
+    if (
+        age.trim() == "" ||
+        city.trim() == "" ||
+        userUrl.trim() == "" ||
+        isNaN(city) ||
+        isNaN(age) == false ||
+        isNaN(userUrl)
+    ) {
+        return res.render("profile", {
+            firstname,
+            lastname,
+            error: "something went wrong!",
+        });
+    }
     if (userUrl != "" && userUrl != " ") {
         if (!userUrl.startsWith("https://") || !userUrl.startsWith("http://")) {
             userUrl = "https://" + userUrl;
@@ -247,13 +265,12 @@ app.post("/profile", (req, res) => {
     let user_id = req.session.userID;
 
     // convert user input to lowercase before saving to data base
-
     city = city.toLowerCase();
-    console.log({ userUrl });
+    //console.log({ userUrl });
 
     createUserProfile({ age, city, userUrl, user_id })
         .then((results) => {
-            console.log(results);
+            //console.log(results);
             return res.redirect("/petition");
         })
         .catch((error) => {
@@ -267,7 +284,7 @@ app.post("/profile", (req, res) => {
 app.get("/petition", (req, res) => {
     if (req.session.logedIn || req.session.logedIn == true) {
         const { firstname, lastname } = req.session.userName;
-        console.log("is signed ?", req.session.signed);
+        //console.log("is signed ?", req.session.signed);
         if (req.session.signed == true) {
             return res.redirect("/petition/signed");
         } else {
@@ -305,19 +322,22 @@ app.post("/petition", (req, res) => {
 //-------------------------------------------------------------------------->
 //GET
 app.get("/petition/:signed", (req, res) => {
-    let id = req.session.userID;
-
-    const { firstname, lastname } = req.session.userName;
-    let signerName = firstname + " " + lastname;
     //console.log({ id });
 
     //check if the user has already signed
     console.log(req.session.signed);
     if (req.session.signed == true) {
+        let id = req.session.userID;
+        let signerName;
         Promise.all([getSignatureById(id), getProfilesWithSignature()])
             .then((results) => {
                 //console.log(results[1].rowCount);
                 //console.log(results[0]);
+                if (req.session.userName) {
+                    const { firstname, lastname } = req.session.userName;
+                    signerName = firstname + " " + lastname;
+                }
+
                 req.session.signersCount = results[1].rowCount;
                 return res.render("signed", {
                     signerName: signerName,
@@ -404,15 +424,43 @@ app.post("/edit", (req, res) => {
     let { firstname, lastname, email, password, age, city, userUrl } = req.body;
     let id = req.session.userID;
 
+    // check user input before saving to database
+    if (
+        firstname.trim() == "" ||
+        lastname.trim() == "" ||
+        email.trim() == "" ||
+        isNaN(firstname) ||
+        isNaN(lastname) ||
+        isNaN(email) ||
+        age.trim() == "" ||
+        city.trim() == "" ||
+        userUrl.trim() == "" ||
+        isNaN(city) ||
+        isNaN(age) == false ||
+        isNaN(userUrl)
+    ) {
+        return res.render("profile", {
+            firstname,
+            lastname,
+            error: "something went wrong!",
+        });
+    }
+
+    if (userUrl.trim() !== "") {
+        if (!userUrl.startsWith("https://") || !userUrl.startsWith("http://")) {
+            userUrl = "https://" + userUrl;
+        }
+    }
+
     // convert user input to lowercase before saving to data base
     city = city.toLowerCase();
 
     if (password.trim() !== "") {
         // Hashing password before saving it to data base
-        console.log("user wants to change the password");
+        //console.log("user wants to change the password");
         password = bcrypt.hashSync(password, salt);
     } else {
-        console.log("user let the password empty");
+        //console.log("user let the password empty");
         getUserById(id).then((results) => {
             //console.log(results.password);
             password = results.password;
@@ -423,7 +471,7 @@ app.post("/edit", (req, res) => {
         updateUsers(firstname, lastname, email, password, id),
         updateUsersProfiles(age, city, userUrl, id),
     ])
-        .then((results) => {
+        .then(() => {
             //console.log(results);
             // update cookie session
             if (email) {
@@ -451,10 +499,11 @@ app.post("/petition/signed/delete", function (req, res) {
     let id = req.session.userID;
     deleteSignature(id)
         .then((results) => {
-            console.log(results);
+            //console.log(results);
             // Destroy signed session
             req.session.signed = false;
             req.session.signersCount = results.rowCount;
+
             return res.redirect("/petition/signed/delete");
         })
         .catch((error) => {
@@ -478,6 +527,7 @@ app.post("/petition/signed/delete_profile", function (req, res) {
     req.session.logedIn = null;
     req.session.signersCount = null;
     req.session.signed = null;
+
     return res.redirect("/petition/signed/delete_profile");
 });
 
@@ -504,7 +554,7 @@ app.get("/logout", function (req, res) {
 app.get("*", function (req, res) {
     return res.render("error");
 });
-
+//POST
 app.post("*", function (req, res) {
     return res.render("error");
 });
