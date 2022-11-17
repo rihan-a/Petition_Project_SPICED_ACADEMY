@@ -439,10 +439,16 @@ app.post("/edit", (req, res) => {
         isNaN(age) == false ||
         isNaN(userUrl)
     ) {
-        return res.render("profile", {
+        const { firstname, lastname, email } = req.session.userName;
+        const { age, city, userUrl } = req.session.userProfile;
+
+        return res.render("edit", {
             firstname,
             lastname,
-            error: "something went wrong!",
+            email,
+            age,
+            city,
+            userUrl,
         });
     }
 
